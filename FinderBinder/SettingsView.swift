@@ -33,10 +33,13 @@ struct SettingsView: View {
                 Spacer()
 
                 Button("Browse…") {
-                    if let result = AppPicker.chooseApp() {
-                        settings.replacementAppBundleID = result.bundleID
-                        settings.replacementAppName = result.name
-                        settings.errorMessage = nil
+                    AppPicker.chooseApp { result in
+                        if let result {
+                            settings.replacementAppBundleID = result.bundleID
+                            settings.replacementAppName = result.name
+                            settings.errorMessage = nil
+                            settings.isEnabled = true
+                        }
                     }
                 }
             }
