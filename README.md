@@ -21,15 +21,13 @@ Requires Xcode 15+ (macOS 14 Sonoma or later).
 ```bash
 git clone https://github.com/anthonysr/FinderBinder.git
 cd FinderBinder
-swift build --disable-sandbox -c release
+./install.sh
+```
 
-# Create .app bundle
-mkdir -p .build/release/FinderBinder.app/Contents/MacOS
-cp .build/release/FinderBinder .build/release/FinderBinder.app/Contents/MacOS/
-cp FinderBinder/Info.plist .build/release/FinderBinder.app/Contents/
+To uninstall:
 
-# Install
-cp -r .build/release/FinderBinder.app /Applications/
+```bash
+./uninstall.sh
 ```
 
 ### First run
