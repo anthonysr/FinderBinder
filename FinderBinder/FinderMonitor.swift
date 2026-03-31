@@ -44,6 +44,18 @@ final class FinderMonitor {
             return
         }
 
+        // Only redirect clicks from the Dock area, not desktop clicks.
+        // visibleFrame excludes the Dock and menu bar — if the mouse is
+        // outside visibleFrame, the click originated from the Dock region.
+        let mouse = NSEvent.mouseLocation
+        let inDockArea = NSScreen.screens.contains { screen in
+            NSMouseInRect(mouse, screen.frame, false)
+                && !NSMouseInRect(mouse, screen.visibleFrame, false)
+        }
+        if !inDockArea {
+            return
+        }
+
         // Launch or activate the replacement app
         guard let replacementURL = settings.replacementAppURL else {
             settings.errorMessage = "Replacement app not found. It may have been uninstalled."

@@ -53,7 +53,7 @@ The replacement app is stored by **bundle identifier**, so it survives app updat
 ### Known Limitations
 
 - **Brief Finder flash (~50ms)** — the notification fires after Finder activates, so there's a momentary flash before it's hidden. This is inherent to the notification-based approach.
-- **Desktop clicks trigger redirect** — clicking the macOS desktop activates Finder, which triggers the redirect. Hold Option to bypass.
+- **Replacement app keeps its own Dock icon** — FinderBinder launches your chosen app as a normal process. macOS requires running apps to have their own Dock icon for window management, Cmd+Tab switching, and menu bar access. This can't be changed without modifying the replacement app itself.
 - **Not on the App Store** — sandboxing blocks the APIs needed (`NSRunningApplication.hide()`, `NSWorkspace.openApplication`). Distribute directly or via Homebrew.
 
 ## Requirements
