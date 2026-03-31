@@ -2,19 +2,20 @@ import SwiftUI
 
 @main
 struct FinderBinderApp: App {
-    @State private var settings = AppSettings()
-    @State private var monitor: FinderMonitor?
+    @State private var settings: AppSettings
+    @State private var monitor: FinderMonitor
+
+    init() {
+        let s = AppSettings()
+        let m = FinderMonitor(settings: s)
+        m.start()
+        _settings = State(initialValue: s)
+        _monitor = State(initialValue: m)
+    }
 
     var body: some Scene {
         MenuBarExtra {
             SettingsView(settings: settings)
-                .onAppear {
-                    if monitor == nil {
-                        let m = FinderMonitor(settings: settings)
-                        m.start()
-                        monitor = m
-                    }
-                }
         } label: {
             Image(systemName: "link")
         }

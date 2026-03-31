@@ -44,9 +44,6 @@ final class FinderMonitor {
             return
         }
 
-        // Hide Finder
-        app.hide()
-
         // Launch or activate the replacement app
         guard let replacementURL = settings.replacementAppURL else {
             settings.errorMessage = "Replacement app not found. It may have been uninstalled."
@@ -54,6 +51,21 @@ final class FinderMonitor {
             return
         }
 
+        // Hide Finder after a brief delay so macOS finishes its unhide/activate
+        // cycle from the dock click — hiding during that cycle is ignored.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            app.hide()
+        }
+
+        // Directly activate the running replacement app (handles already-running case)
+        if let running = NSWorkspace.shared.runningApplications.first(where: {
+            $0.bundleIdentifier == self.settings.replacementAppBundleID
+        }) {
+            running.unhide()
+            running.activate()
+        }
+
+        // Also call openApplication to handle the not-yet-running case
         let config = NSWorkspace.OpenConfiguration()
         config.activates = true
         NSWorkspace.shared.openApplication(at: replacementURL, configuration: config) { [weak self] _, error in
