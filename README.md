@@ -19,7 +19,7 @@ FinderBinder runs as a lightweight background agent (no Dock icon) and monitors 
 Requires Xcode 15+ (macOS 14 Sonoma or later).
 
 ```bash
-git clone https://github.com/user/FinderBinder.git
+git clone https://github.com/anthonysr/FinderBinder.git
 cd FinderBinder
 swift build --disable-sandbox -c release
 cp -r .build/release/FinderBinder /Applications/
