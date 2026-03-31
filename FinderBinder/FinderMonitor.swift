@@ -54,20 +54,12 @@ final class FinderMonitor {
             return
         }
 
-        let runningApps = NSWorkspace.shared.runningApplications.filter {
-            $0.bundleIdentifier == settings.replacementAppBundleID
-        }
-
-        if let running = runningApps.first {
-            running.activate()
-        } else {
-            let config = NSWorkspace.OpenConfiguration()
-            config.activates = true
-            NSWorkspace.shared.openApplication(at: replacementURL, configuration: config) { [weak self] _, error in
-                if let error {
-                    DispatchQueue.main.async {
-                        self?.settings.errorMessage = "Failed to launch app: \(error.localizedDescription)"
-                    }
+        let config = NSWorkspace.OpenConfiguration()
+        config.activates = true
+        NSWorkspace.shared.openApplication(at: replacementURL, configuration: config) { [weak self] _, error in
+            if let error {
+                DispatchQueue.main.async {
+                    self?.settings.errorMessage = "Failed to launch app: \(error.localizedDescription)"
                 }
             }
         }
